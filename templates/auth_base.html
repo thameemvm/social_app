@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8" />
+    <title>MYBook Login or Sign Up</title>
+    <link rel="shortcut icon" type="image/x-icon" href="" />
+    <link rel="stylesheet" href="{% static 'css/auth_style.css' %}" />
+</head>
+
+<body>
+    <header>
+        <section class="wrapper">
+            <div class="logo">
+                <h1>
+                    <a href="">MYBook</a>
+                </h1>
+            </div>
+            <div class="loginform">
+                <form action="">
+                    <table>
+                        <tr class="label">
+                            <td><label for="username"> Email or Phone </label></td>
+                            <td><label for="password">Password</label></td>
+                        </tr>
+                        <tr class="input">
+                            <td><input type="text" name="username" id="username" /></td>
+                            <td><input type="password" name="password" id="password" /></td>
+                            <td class="submit"><input type="submit" value="Log In" /></td>
+                        </tr>
+                        <tr class="link">
+                            <td>
+                                <input type="checkbox" name="keepmeloggedin" id="keepmeloggedin" />
+                                <label class="remember" for="keepmeloggedin">Keep me logged in</label>
+                            </td>
+                            <td>
+                                <a class="forgot_pw" href="">Forgotten your password?</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <br class="clear" />
+                </form>
+            </div>
+            <br class="clear" />
+        </section>
+    </header>
+    <section id="content">
+        <section class="wrapper">
+            <section class="contentleft">
+                <h4>MYBook help you connect and share with the people in your life</h4>
+                <img src="{% static 'images/facebook.png' %}" alt="facebook connecting people" />
+            </section>
+            <section class="contentright">
+                <h2>Create an account</h2>
+                <h5>It's free and always will be.</h5>
+                <div id="signupform">
+                    <div id="fullname" class="inp">
+                        <input type="text" name="firstname" placeholder="First name" id="firstname" />
+                        <input type="text" name="lastname" placeholder="Surname" id="lastname" />
+                    </div>
+                    <div id="emailormobile" class="sameinp inp">
+                        <input type="text" name="email" placeholder="Email or mobile number" />
+                    </div>
+                    <div id="renteremailormobile" class="sameinp inp">
+                        <input type="text" name="email-again" placeholder="Re-enter email or mobile number" />
+                    </div>
+                    <div id="password" class="sameinp inp">
+                        <input type="password" name="password" placeholder="password" />
+                    </div>
+                    <div id="password" class="sameinp">
+                        <input type="submit" class="submit" value="Create Account">
+                    </div>
+                </div>
+            </section>
+            <br class="clear" />
+        </section>
+    </section>
+</body>
+
+</html>
