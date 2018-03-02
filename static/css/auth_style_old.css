@@ -1,0 +1,238 @@
+/*
+ Theme Name: Brain Station
+ Theme URI: www.sprdh.com
+ Author: SPRDH
+ Author URI: sprdh.com
+ Description: Brain Station
+ Version: 1.0
+ Tags: brainstation
+ */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	background: transparent;
+	font-weight: normal;
+	text-decoration: none;
+	outline: none;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote {
+	quotes: none;
+}
+blockquote:before, blockquote:after {
+	content: '';
+	content: none;
+}
+del {
+	text-decoration: line-through;
+}
+header, section, article, aside, nav, footer, address {
+	display: block;
+}
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #555;
+	
+}
+p{
+	line-height:1.6em;
+}
+.hidden{
+	display:none;
+}
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+br.clear {
+	clear: both;
+	line-height: 0;
+}
+.wrapper {
+	width: 1080px;
+	margin: 0 auto;
+}
+header{
+	background: #3A5795;
+	padding-top: 20px;
+	font-size: 13px;
+	border-color: #2f477a #29447e #1a356e;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+	
+	
+}
+header div.logo{
+	float: left;
+}header div.logo h1{
+	/*margin-top:20px;*/
+}
+header div.logo h1 a{
+	width: 171px;
+	height: 36px;
+	display: block;
+	background: url("../images/logo.png");
+	font-size:39px;
+	color:#fff;
+	font-weight: bold;
+}
+div.loginform{
+	float: right;
+	margin-top:-12px;
+}
+div.loginform table{
+	float: right;
+}
+div.loginform table tr td{
+	width: 151px;
+	padding-left: 15px;
+}
+div.loginform table tr td.submit{
+	width: 60px !important;
+}
+div.loginform table tr td input[type="text"],header table tr td input[type="password"]{
+	padding-left:5px;
+	font-size: 13px;
+	height: 20px;
+	width: 100%;
+	border: none;
+}
+div.loginform table tr td input[type="submit"]{
+	cursor: pointer;
+	font-weight: bold;
+	line-height: 13px;
+	padding: 3px 5px;
+	background: url("../images/sprite_color.png");
+	background-position:0 -49px;
+	color: #fff;
+	border-color: #2f477a #29447e #1a356e;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	
+}
+div.loginform table tr.label td{
+	padding-bottom:3px;
+	color: #fff;
+	font-size:12px;
+}
+div.loginform table tr td.input{
+	padding-bottom:2px;
+}
+div.loginform table tr.link td{
+	color: #9CA7C2;
+	padding-bottom:4px;
+}
+div.loginform table tr.link td a{
+	color: #9CA7C2;
+}
+div.loginform table .remember, div.loginform table .forgot_pw{
+	position: relative;
+	top:-2px;
+	font-size:12px;
+}
+
+section#content{
+	padding-top: 50px;
+	height: 500px;
+	background: url("../images/content_bg.png");
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+section.contentleft{
+	float: left;
+	width: 521px;
+}
+section.contentleft h4{
+	font-weight: bold;
+	font-size: 23px;
+	line-height: 30px;
+	color: #0E385F;
+	margin-bottom: 20px;
+}
+section.contentleft img{
+	display: block;
+}
+section.contentright{
+	width: 410px;
+	float: right;
+}
+section.contentright h2{
+	font-size: 40px;
+	font-weight: bold;
+	color: #333333;
+	margin-bottom: 10px;
+}
+section.contentright h5{
+	font-size: 19px;
+	color: #000;
+	margin-bottom: 24px;
+}
+div.inp{
+	margin-bottom: 20px;
+}
+div#fullname input{
+	width: 43%;
+	display: inline-block;
+}
+div.inp input{
+	border-color: #bdc7d8;
+    height: 20px;
+    width: 377px;padding: 8px;
+	border: 1px solid #bdc7d8;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: #fff;
+}
+
+/*  ******************* inner style placeholder ***********/
+
+
+
+::-webkit-input-placeholder {
+	line-height: 18px;
+	font-size: 16px;
+     /*padding: 8px 10px 8px 10px;*/
+    background-color: transparent;
+}
+:-moz-placeholder {
+	line-height: 18px;
+	font-size: 16px;
+    /*padding: 8px 10px 8px 10px;*/
+    background-color: transparent;
+}
+::-moz-placeholder {
+	line-height: 18px;
+	font-size: 16px;
+    /*padding: 8px 10px 8px 10px;*/
+    background-color: transparent;
+}
+:-ms-input-placeholder {
+	line-height: 18px;
+	font-size: 16px;
+     /*padding: 8px 10px 8px 10px;*/
+    background-color: transparent;
+}
+
+
+.sameinp .submit{
+	width:180px;
+	padding:10px;
+	font-size:18px;
+	color:#fff;
+	background: linear-gradient(#67ae55, #578843);
+    background-color: #69a74e;
+    box-shadow: inset 0 1px 1px #a4e388;
+    border-color: #3b6e22 #3b6e22 #2c5115;
+	border-radius:5px;
+}

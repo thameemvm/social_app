@@ -6,26 +6,47 @@
     <title>MYBook Login or Sign Up</title>
     <link rel="shortcut icon" type="image/x-icon" href="" />
     <link rel="stylesheet" href="{% static 'css/auth_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/toastr.min.css' %}" />
+
 </head>
 
 <body>
+
+    <div class="loading" style="">
+       <div class="sk-circle">
+  <div class="sk-circle1 sk-child"></div>
+  <div class="sk-circle2 sk-child"></div>
+  <div class="sk-circle3 sk-child"></div>
+  <div class="sk-circle4 sk-child"></div>
+  <div class="sk-circle5 sk-child"></div>
+  <div class="sk-circle6 sk-child"></div>
+  <div class="sk-circle7 sk-child"></div>
+  <div class="sk-circle8 sk-child"></div>
+  <div class="sk-circle9 sk-child"></div>
+  <div class="sk-circle10 sk-child"></div>
+  <div class="sk-circle11 sk-child"></div>
+  <div class="sk-circle12 sk-child"></div>
+</div>
+    </div>
+
     <header>
         <section class="wrapper">
             <div class="logo">
                 <h1>
-                    <a href="">MYBook</a>
+                    <a href="#">MYBook</a>
                 </h1>
             </div>
             <div class="loginform">
-                <form action="">
+                <form action="" id="login">
+                {% csrf_token %}
                     <table>
                         <tr class="label">
                             <td><label for="username"> Email or Phone </label></td>
                             <td><label for="password">Password</label></td>
                         </tr>
                         <tr class="input">
-                            <td><input type="text" name="username" id="username" /></td>
-                            <td><input type="password" name="password" id="password" /></td>
+                            <td><input type="text" name="username" id="id_username" /></td>
+                            <td><input type="password" name="password" id="id_password" /></td>
                             <td class="submit"><input type="submit" value="Log In" /></td>
                         </tr>
                         <tr class="link">
@@ -52,29 +73,148 @@
             </section>
             <section class="contentright">
                 <h2>Create an account</h2>
-                <h5>It's free and always will be.</h5>
+                <h5>Register for free.</h5>
+                <form action="" id="signup">
+                {% csrf_token %}
                 <div id="signupform">
                     <div id="fullname" class="inp">
-                        <input type="text" name="firstname" placeholder="First name" id="firstname" />
-                        <input type="text" name="lastname" placeholder="Surname" id="lastname" />
+                        <input type="text" name="first_name" placeholder="First name" id="id_first_name" required/>
+                        <input type="text" name="last_name" placeholder="Surname" id="id_last_name" required/>
                     </div>
                     <div id="emailormobile" class="sameinp inp">
-                        <input type="text" name="email" placeholder="Email or mobile number" />
+                        <input type="email" id="id_email" name="email" placeholder="Email" required/>
                     </div>
                     <div id="renteremailormobile" class="sameinp inp">
-                        <input type="text" name="email-again" placeholder="Re-enter email or mobile number" />
+                        <input type="password" id="id_password1" name="password1" placeholder="password" required/>
                     </div>
                     <div id="password" class="sameinp inp">
-                        <input type="password" name="password" placeholder="password" />
+                        <input type="password" name="password2" placeholder="Re-enter password" id="id_password2" required/>
                     </div>
                     <div id="password" class="sameinp">
                         <input type="submit" class="submit" value="Create Account">
                     </div>
                 </div>
+                </form>
             </section>
             <br class="clear" />
         </section>
     </section>
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/toastr.min.js' %}"></script>
+<script>
+    
+    $(document).ready(function(){
+
+        
+        $("#signup").submit(function(e){
+            e.preventDefault();
+            $this = $(this);
+            var data = $this.serialize();
+            var url = "{% url 'accounts:signup' %}"
+            var method = "post"
+            show("loading");
+            $.ajax({
+                url:url,
+                dataType:"JSON",
+                type:method,
+                data:data,
+                success:function(data){
+                     hide("loading");
+                    var status = data["status"]
+                    var message = data["message"]
+
+                    if (status >0){
+                        var redirect = data["redirect"]
+                        toastr.success(message);
+                        window.location.href = redirect;
+                        
+                    }
+                    else{
+                        toastr.warning("Please correct the errors.");
+                          var errors = data["errors"]
+                        var errors = data["errors"]
+                        $.each(errors, function(key, value){
+                            
+                            console.log(key+":"+value)
+                            var input_id = "#id_"+key;
+                            $input_parent = $this.find("#id_"+key).parent("div");
+                            $input_parent.find("label.error").remove();
+
+                             var label_error = '<label class="error" for="'+input_id+'">'+value+'.</label>'
+
+                             $input_parent.append(label_error);
+                        });
+
+                    }
+                },
+                error:function(data){
+                     hide("loading");
+                     toastr.warning("Server errors occured");
+                }
+            }); 
+            
+        });
+
+
+    
+
+        $("#login").submit(function(e){
+            e.preventDefault();
+            $this = $(this);
+            var data = $this.serialize();
+            var url = "{% url 'accounts:login' %}"
+            var method = "post"
+            show("loading");
+            $.ajax({
+                url:url,
+                dataType:"JSON",
+                type:method,
+                data:data,
+                success:function(data){
+                     hide("loading");
+                    var status = data["status"]
+                    var message = data["message"]
+
+                    if (status >0){
+                        var redirect = data["redirect"]
+                        toastr.success(message);
+                        window.location.href = redirect;
+                        
+                    }
+                    else{
+                        toastr.warning("Please correct the errors.");
+                          var errors = data["errors"]
+                        var errors = data["errors"]
+                        $.each(errors, function(key, value){
+                            
+                            console.log(key+":"+value)
+                            var input_id = "#id_"+key;
+                            $input_parent = $this.find("#id_"+key).parent("td");
+                            $input_parent.find("label.error").remove();
+
+                             var label_error = '<label class="error" for="'+input_id+'">'+value+'.</label>'
+
+                             $input_parent.append(label_error);
+                        });
+
+                    }
+                },
+                error:function(data){
+                     hide("loading");
+                     toastr.warning("Server errors occured");
+                }
+            }); 
+            
+        });
+
+        
+
+    });
+</script>
+
 </body>
 
 </html>
