@@ -25,12 +25,15 @@ class Post(models.Model):
 
 
 class BlockedPost(models.Model):
-	user = models.ForeignKey(User)
-	post = models.ForeignKey(Post)
+	blocked_by = models.ForeignKey(User, related_name='blocked_by')
+	blocked_whom = models.ForeignKey(User, null=True, related_name='blocked_whom')
+	post = models.ForeignKey(Post, null=True)
+	is_user_blocked = models.BooleanField(default=False)
 
 	class Meta:
 		db_table = "blocked_post"
 		ordering = ["-id"]
 
 	def __str__(self):
-		return self.post.title
+		return str(self.pk)
+

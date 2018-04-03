@@ -137,10 +137,16 @@
             <img src="{% static 'images/no-image.jpg' %}" alt="">
           </div>
           <div class="item_title">
-            <span class="posted">{{ post.user.get_full_name }} <i>posted this article</i></span>
+            <span class="posted">{% if not post.user == user %}{{ post.user.get_full_name }} {% else %} Me {% endif %} <i>posted this article</i></span>
             <br>
             <span class="post_date"><span class="fa fa-clock-o"></span> <i style="text-transform:capitalize">{{ post.created_at|date:'d b Y h:i A'}}</i></span>
           </div>
+          {% if not post.user == user %}
+            <div class="block_user pull-right" data-post="{{ post.pk }}">
+                <span class="fa fa-ban text-danger block"></span>
+            </div>
+          {% endif %}
+          <div class="clearfix"></div>
         </div>
         
         <div class="post_title">
@@ -183,6 +189,7 @@
         var data = $this.serialize();
         var url = "{% url 'posts:create_post' %}";
         var method = "post";
+        $("label.error").remove();
        show("loading");
        $.ajax({
           url : url,
@@ -223,9 +230,116 @@
        });
 
       });
+
+
+
+      $('#block_form').submit(function(e){
+        e.preventDefault();
+
+        $this = $(this);
+        var data = $this.serialize();
+
+        var url = "{% url 'posts:block_user' %}";
+        var method = "post";
+        $("label.error").remove();
+       show("loading");
+       $.ajax({
+          url : url,
+          type : method,
+          dataType: "JSON",
+          data : data,
+          success:function(data){
+            hide("loading");
+            var status = data["status"]
+            var message = data["message"]
+            if (status >= 0){
+                toastr.success(message);
+                location.reload();
+            }
+            else{
+              toastr.warning("Please correct the errors.");
+              var errors = data["errors"]
+               $.each(errors, function(key, value){
+                            
+                    console.log(key+":"+value)
+                    var input_id = "#id_"+key;
+                    $input_parent = $this.find("#id_"+key).parents(".parent_div");
+                    $input_parent.find("label.error").remove();
+
+                     var label_error = '<label class="error" for="'+input_id+'">'+value+'.</label>'
+
+                     $input_parent.append(label_error);
+                     
+                });
+
+            }
+           
+          },
+          error:function(data){
+            hide("loading");
+            toastr.warning("Server errors occured");
+          }
+       });
+
+      });
+
+
+    $(".block").click(function(){
+      var post_id = $(this).parent("div").data("post");
+      $("#id_post_id").val(post_id);
+      $('#myModal').modal('show')
+    });
+    
+  
+
   });
 
   </script>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Block Content</h4>
+      </div>
+      <form action="" id="block_form">
+      {% csrf_token %}
+      <div class="modal-body">
+          <input type="hidden" name="post_id" id="id_post_id" >
+        <div id="post_form_container">
+
+          <div style="margin-bottom:20px" class="parent_div">
+            <input type="text" class="form-control" name="words" placeholder="Enter bad words with comma seperate" id="id_words">
+
+          </div>
+          <div class="parent_div">
+            <label style="font-weight:100;"><input type="checkbox" name="is_post_blocked" id="id_is_post_blocked" style="margin-right:10px;">Block Post</label>
+            <br>
+          </div>
+          <div class="parent_div">
+            <label style="font-weight:100"><input style="margin-right:10px;"type="checkbox" id="id_is_user_blocked" name="is_user_blocked" >Block User</label>
+            <br>
+          </div>
+          <div>
+            
+            <div class="clearfix"></div>
+          </div>
+        </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button class="post_btn pull-right" type="submit">Block <span class="fa fa-ban"></span> </button>
+      </div>
+       </form>
+    </div>
+
+  </div>
+</div>
+
 
 </body>
 </html>

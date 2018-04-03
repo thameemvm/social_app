@@ -332,7 +332,9 @@ nav{
     color:#B71C1C;
 }
 
-
+.block_user span:before{
+  cursor:pointer;
+}
 
 
 
