@@ -10,7 +10,9 @@ import nltk
 sno = nltk.stem.SnowballStemmer('english')
 lemma = nltk.wordnet.WordNetLemmatizer()
 from flashtext import KeywordProcessor
+from nltk.tokenize import RegexpTokenizer
 
+tokenizer = RegexpTokenizer(r'\w+')
 # import hunspell
 # hobj = hunspell.HunSpell('/usr/share/myspell/en_US.dic', '/usr/share/myspell/en_US.aff')
 
@@ -37,7 +39,7 @@ class PostForm(forms.ModelForm):
 			for word in blocked_words:
 				if not word.word in bad_word_list:
 					bad_word_list.append(word.word)
-			tokenized_words = nltk.word_tokenize(title)
+			tokenized_words = tokenizer.tokenize(title)
 
 			for word in tokenized_words:
 				word = word.lower()
