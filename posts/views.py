@@ -104,12 +104,13 @@ def block_user(request):
 
 		post_obj = get_object_or_404(Post, pk=post_id)
 
-		words_list = words.split(",")
-		for word in words_list:
-			word = word.strip()
-			word = word.lower()
-			if not BadWordList.objects.filter(word__iexact=word).exists():
-				BadWordList.objects.create(word=word, created_by=2)
+		if words:
+			words_list = words.split(",")
+			for word in words_list:
+				word = word.strip()
+				word = word.lower()
+				if not BadWordList.objects.filter(word__iexact=word).exists():
+					BadWordList.objects.create(word=word, created_by=2)
 
 		blocked_obj = BlockedPost.objects.create(
 				blocked_by=request.user

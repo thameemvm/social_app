@@ -28,7 +28,7 @@ class PostForm(forms.ModelForm):
 
 	def clean_title(self):
 		title = self.cleaned_data.get("title", "")
-
+		the_title = title
 		keyword_processor = KeywordProcessor()
 		if title:
 			blocked_words = BadWordList.objects.filter(
@@ -85,6 +85,7 @@ class PostForm(forms.ModelForm):
 					re_found_list.append(found_word)
 					found = True
 					found_list += "%s " %(item)
+
 			if found or len(keywords_found) > 0:
 				bad_word_found_list = []
 				word_found_list = re_found_list + keywords_found
@@ -98,10 +99,11 @@ class PostForm(forms.ModelForm):
 						"title", 
 						"Blocked words (%s) found in your title" %(found_list)
 					)
-		return title
+		return the_title
 
 	def clean_post(self):
 		title = self.cleaned_data.get("post", "")
+		the_title = title
 		keyword_processor = KeywordProcessor()
 		if title:
 			blocked_words = BadWordList.objects.filter(
@@ -171,13 +173,13 @@ class PostForm(forms.ModelForm):
 						"post", 
 						"Blocked words (%s) found in your post" %(found_list)
 					)
-		return title
+		return the_title
 
 
 class BlockForm(forms.Form):
 
 	post_id = forms.IntegerField()
-	words = forms.CharField()
+	words = forms.CharField(required=False)
 	is_user_blocked = forms.BooleanField(initial=False, required=False)
 	is_post_blocked = forms.BooleanField(initial=False, required=False)
 
