@@ -205,10 +205,22 @@
                 location.reload();
             }
             else{
+              var refresh_page = data["refresh_page"]
+              if (refresh_page < 0){
+                location.reload();
+              }
+
+              var errors = data["errors"]
               toastr.warning("Please correct the errors.");
               var errors = data["errors"]
+              var found_admin = false
                $.each(errors, function(key, value){
-                            
+                    var str_val = String(value)
+                    var n = str_val.indexOf("administrator");
+                    console.log(n);
+                    if (n>0){
+                      found_admin = true
+                    }      
                     console.log(key+":"+value)
                     var input_id = "#id_"+key;
                     $input_parent = $this.find("#id_"+key).parent("div");
@@ -219,6 +231,12 @@
                      $input_parent.append(label_error);
                      $(input_id).focus();
                 });
+
+               if (found_admin){
+                  setTimeout(function(){
+                        location.reload();
+                    },3000);
+               }
 
             }
            

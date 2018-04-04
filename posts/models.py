@@ -25,7 +25,7 @@ class Post(models.Model):
 
 
 class BlockedPost(models.Model):
-	blocked_by = models.ForeignKey(User, related_name='blocked_by')
+	blocked_by = models.ForeignKey(User, null=True, related_name='blocked_by')
 	blocked_whom = models.ForeignKey(User, null=True, related_name='blocked_whom')
 	post = models.ForeignKey(Post, null=True)
 	is_user_blocked = models.BooleanField(default=False)

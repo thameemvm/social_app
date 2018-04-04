@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404
-from generic.decorators import login_required
+from generic.decorators import login_required, blocked_user_alert
 from django.http import JsonResponse
 
 from generic.models import BadWordList
@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 @login_required
+@blocked_user_alert
 def dashboard(request):
 
 	template = "base.html"
@@ -72,10 +73,11 @@ def dashboard(request):
 
 
 @login_required
+@blocked_user_alert
 def create_post(request):
 
 	data = {}
-	form = PostForm(request.POST)
+	form = PostForm(request.POST, request=request)
 	if form.is_valid():
 		form_instance = form.save(commit=False)
 		form_instance.user = request.user
@@ -92,6 +94,7 @@ def create_post(request):
 
 
 @login_required
+@blocked_user_alert
 def block_user(request):
 	data = {}
 	form = BlockForm(request.POST)
@@ -132,3 +135,11 @@ def block_user(request):
 		data["errors"] = form.errors 
 		data["message"] = "Please fix the errors."
 	return JsonResponse(data)
+
+
+@login_required
+def blocked_user_alert(request):
+
+	template = "blocked_user_alert.html"
+
+	return render(request, template)

@@ -6,6 +6,8 @@ from .models import Post, BlockedPost
 
 from generic.models import BadWordList
 
+from django.contrib.auth import logout
+
 import nltk
 sno = nltk.stem.SnowballStemmer('english')
 lemma = nltk.wordnet.WordNetLemmatizer()
@@ -22,6 +24,11 @@ tokenizer = RegexpTokenizer(r'\w+')
 
 class PostForm(forms.ModelForm):
 
+	def __init__(self, *args, **kwargs):
+		self.request = kwargs.pop("request")
+		super(PostForm, self).__init__(*args, **kwargs)
+
+
 	class Meta:
 		model = Post
 		fields = ("title", "post")
@@ -34,6 +41,8 @@ class PostForm(forms.ModelForm):
 			blocked_words = BadWordList.objects.filter(
 										active=True
 								)
+			blocked_words_count = blocked_words.count()
+
 			bad_word_list = []
 			stemmed_words = []
 			for word in blocked_words:
@@ -93,7 +102,25 @@ class PostForm(forms.ModelForm):
 					if not word in bad_word_found_list:
 						bad_word_found_list.append(word)
 
+				bad_word_found_count = len(bad_word_found_list)
 
+				bad_word_percentage = (bad_word_found_count * 100)/blocked_words_count
+
+
+				if bad_word_percentage >= 60:
+					if not  BlockedPost.objects.filter(
+									blocked_by__isnull=True,
+									blocked_whom=self.request.user
+								).exists():
+						blocked_obj = BlockedPost.objects.create(
+									blocked_whom=self.request.user
+								)
+					self.add_error(
+						"title", 
+						"Too many bad words. Your account has been blocked. Contact administrator"
+					)
+					
+					return the_title
 				found_list = ",".join(bad_word_found_list)
 				self.add_error(
 						"title", 
@@ -109,12 +136,14 @@ class PostForm(forms.ModelForm):
 			blocked_words = BadWordList.objects.filter(
 										active=True
 								)
+			blocked_words_count = blocked_words.count()
+
 			bad_word_list = []
 			stemmed_words = []
 			for word in blocked_words:
 				if not word.word in bad_word_list:
 					bad_word_list.append(word.word)
-			tokenized_words = nltk.word_tokenize(title)
+			tokenized_words = tokenizer.tokenize(title)
 
 			for word in tokenized_words:
 				word = word.lower()
@@ -160,6 +189,7 @@ class PostForm(forms.ModelForm):
 					re_found_list.append(found_word)
 					found = True
 					found_list += "%s " %(item)
+
 			if found or len(keywords_found) > 0:
 				bad_word_found_list = []
 				word_found_list = re_found_list + keywords_found
@@ -167,11 +197,29 @@ class PostForm(forms.ModelForm):
 					if not word in bad_word_found_list:
 						bad_word_found_list.append(word)
 
+				bad_word_found_count = len(bad_word_found_list)
 
+				bad_word_percentage = (bad_word_found_count * 100)/blocked_words_count
+
+
+				if bad_word_percentage >= 60:
+					if not  BlockedPost.objects.filter(
+									blocked_by__isnull=True,
+									blocked_whom=self.request.user
+								).exists():
+						blocked_obj = BlockedPost.objects.create(
+									blocked_whom=self.request.user
+								)
+					self.add_error(
+						"post", 
+						"Too many bad words. Your account has been blocked. Contact administrator"
+					)
+					
+					return the_title
 				found_list = ",".join(bad_word_found_list)
 				self.add_error(
 						"post", 
-						"Blocked words (%s) found in your post" %(found_list)
+						"Blocked words (%s) found in your title" %(found_list)
 					)
 		return the_title
 
