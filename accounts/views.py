@@ -9,7 +9,8 @@ from django.contrib.auth import (
 from .forms import LoginForm, SignUpForm
 
 from django.http import JsonResponse
-from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from django.contrib import messages
 

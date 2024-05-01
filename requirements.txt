@@ -1,6 +1,5 @@
-Django==1.11
-flashtext==2.7
-nltk==3.4
-pytz==2018.9
-singledispatch==3.4.0.3
-six==1.12.0
+Django
+flashtext
+nltk
+pytz
+

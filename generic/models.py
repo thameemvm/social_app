@@ -10,7 +10,7 @@ CREATED_CHOICE = (
 	)
 
 class BadWordList(models.Model):
-
+	id = models.AutoField(primary_key=True)
 	word = models.CharField(max_length=128)
 	active = models.BooleanField(default=True)
 	created_by = models.PositiveIntegerField(
