@@ -2,4 +2,4 @@ Django
 flashtext
 nltk
 pytz
-
+requests
